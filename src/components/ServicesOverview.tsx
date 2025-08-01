@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Globe, Calendar, TrendingUp, Smartphone, BarChart3, Settings } from 'lucide-react';
-import WebDesignService from '../pages/WebDesignService';
-import BookingEngineService from '../pages/BookingEngineService';
-import SEOService from '../pages/SEOService';
-import WebRedesignService from '../pages/WebRedesignService';
-import HotelPMSService from '../pages/HotelPMSService';
-import AnalyticsService from '../pages/AnalyticsService';
 
 const ServicesOverview: React.FC = () => {
-  const [activeService, setActiveService] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleServiceNavigation = (event: CustomEvent) => {
       const serviceId = event.detail.serviceId;
       // Map service names to IDs
       const serviceMap: { [key: string]: string } = {
-        'web-design': 'web-design',
-        'booking-engine': 'booking-engine',
-        'seo-optimization': 'seo-optimization',
-        'web-redesign': 'web-redesign',
-        'hotel-pms': 'hotel-pms',
-        'analytics': 'analytics'
+        'web-design': '/services/web-design',
+        'booking-engine': '/services/booking-engine',
+        'seo-optimization': '/services/seo-optimization',
+        'web-redesign': '/services/web-redesign',
+        'hotel-pms': '/services/hotel-pms',
+        'analytics': '/services/analytics'
       };
       
       if (serviceMap[serviceId]) {
-        setActiveService(serviceMap[serviceId]);
+        navigate(serviceMap[serviceId]);
       }
     };
 
@@ -33,6 +28,10 @@ const ServicesOverview: React.FC = () => {
       window.removeEventListener('navigateToService', handleServiceNavigation as EventListener);
     };
   }, []);
+
+  const handleLearnMore = (serviceId: string) => {
+    navigate(`/services/${serviceId}`);
+  };
 
   const services = [
     {
@@ -85,33 +84,6 @@ const ServicesOverview: React.FC = () => {
     }
   ];
 
-  const renderServicePage = () => {
-    switch (activeService) {
-      case 'web-design':
-        return <WebDesignService onBack={() => setActiveService(null)} />;
-      case 'booking-engine':
-        return <BookingEngineService onBack={() => setActiveService(null)} />;
-      case 'seo-optimization':
-        return <SEOService onBack={() => setActiveService(null)} />;
-      case 'web-redesign':
-        return <WebRedesignService onBack={() => setActiveService(null)} />;
-      case 'hotel-pms':
-        return <HotelPMSService onBack={() => setActiveService(null)} />;
-      case 'analytics':
-        return <AnalyticsService onBack={() => setActiveService(null)} />;
-      default:
-        return null;
-    }
-  };
-
-  if (activeService) {
-    return (
-      <div className="min-h-screen">
-        {renderServicePage()}
-      </div>
-    );
-  }
-
   return (
     <section id="services" className="py-20 bg-gradient-to-br from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -162,7 +134,7 @@ const ServicesOverview: React.FC = () => {
 
               {/* Learn More Link */}
               <button 
-                onClick={() => setActiveService(service.id)}
+                onClick={() => handleLearnMore(service.id)}
                 className="text-[#0A2463] font-medium hover:text-[#5FBDB0] transition-colors group-hover:underline cursor-pointer bg-transparent border-none p-0"
               >
                 Learn More →
