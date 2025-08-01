@@ -143,7 +143,6 @@ const ServicesOverview: React.FC = () => {
               {/* Content */}
               <h3 
                 className="text-xl font-bold text-[#0A2463] mb-4 font-poppins cursor-pointer hover:text-[#5FBDB0] transition-colors"
-                onClick={() => setActiveService(service.id)}
               >
                 {service.title}
               </h3>
@@ -164,7 +163,7 @@ const ServicesOverview: React.FC = () => {
               {/* Learn More Link */}
               <button 
                 onClick={() => setActiveService(service.id)}
-                className="text-[#0A2463] font-medium hover:text-[#5FBDB0] transition-colors group-hover:underline cursor-pointer"
+                className="text-[#0A2463] font-medium hover:text-[#5FBDB0] transition-colors group-hover:underline cursor-pointer bg-transparent border-none p-0"
               >
                 Learn More →
               </button>
